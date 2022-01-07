@@ -1,6 +1,4 @@
 plugin: ocmplus.cm.ocm_managedcluster
-use_extra_vars: True
-hub_kubeconfig: "{{ hub_kubeconfig_path }}"
 cluster_groups:
 - name: eks-clusters
   label_selectors:
