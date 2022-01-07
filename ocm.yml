@@ -1,4 +1,3 @@
----
 plugin: ocmplus.cm.ocm_managedcluster
 hub_kubeconfig: "{{ hub_kubeconfig_path }}"
 cluster_groups:
