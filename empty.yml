@@ -8,3 +8,6 @@
   - name: debug passed group name
     debug:
       msg: "{{ host_group_name }}"
+  - name: debug file_path
+    debug:
+      msg: "{{ file_path }}"
