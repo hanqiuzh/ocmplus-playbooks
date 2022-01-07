@@ -10,4 +10,4 @@
       msg: "{{ host_group_name }}"
   - name: debug file_path
     debug:
-      msg: "{{ file_path }}"
+      msg: "{{ tower.filename.kubeconfig }}"
