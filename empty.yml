@@ -2,6 +2,9 @@
   connection: local
 
   tasks:
-  - name: debug
+  - name: debug hosts
     debug:
-      msg: test
+      msg: "{{ groups['all'] }}"
+  - name: debug passed group name
+    debug:
+      msg: "{{ host_group_name }}"
