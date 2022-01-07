@@ -28,7 +28,7 @@
     kubernetes.core.k8s:
       state: present
       host: "{{cluster_proxy_url.cluster_url}}"
-      ca_cert: /Users/hanzhang/Projects/py-venv/ansible2.9/ansible-exp/ca.crt
+      validate_certs: no
       api_key: "{{token.token}}"
       definition:
         apiVersion: v1
