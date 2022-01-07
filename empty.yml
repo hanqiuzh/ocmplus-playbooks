@@ -1,4 +1,4 @@
-- hosts: {{host_group_name | default('localhost')}}
+- hosts: "{{host_group_name | default('localhost')}}"
   connection: local
 
   tasks:
