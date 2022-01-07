@@ -1,0 +1,37 @@
+- name: create a namespace named ansible-test
+  hosts: kind-clusters
+  connection: local
+  tasks:
+  - name: "Get proxy cluster url for example-cluster"
+    ocmplus.cm.cluster_proxy_addon:
+      hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
+      managed_cluster: "{{hostvars[inventory_hostname].cluster_name}}"
+      wait: True
+      timeout: 60
+    register: cluster_proxy_url
+  - name: debug
+    debug:
+      msg: "{{cluster_proxy_url.cluster_url}}"
+  - name: "Get auth for example-cluster"
+    ocmplus.cm.managed_serviceaccount_addon:
+      hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
+      managed_cluster: "{{hostvars[inventory_hostname].cluster_name}}"
+      wait: True
+      timeout: 60
+    register: token
+
+  - name: debug
+    debug:
+      msg: "token length: {{token.token | length }}"
+
+  - name: create ns
+    kubernetes.core.k8s:
+      state: present
+      host: "{{cluster_proxy_url.cluster_url}}"
+      ca_cert: /Users/hanzhang/Projects/py-venv/ansible2.9/ansible-exp/ca.crt
+      api_key: "{{token.token}}"
+      definition:
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+          name: ansible-kind-new-1
