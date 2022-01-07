@@ -1,0 +1,14 @@
+---
+plugin: ocmplus.cm.ocm_managedcluster
+hub_kubeconfig: "{{ hub_kubeconfig_path }}"
+cluster_groups:
+- name: eks-clusters
+  label_selectors:
+  - name=hao-eks
+- name: kind-clusters
+  label_selectors:
+  - name=kind
+- name: openshift-clusters
+  label_selectors:
+  - vendor=OpenShift
+  - name!=local-cluster
