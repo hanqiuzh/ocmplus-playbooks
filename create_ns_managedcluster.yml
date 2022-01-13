@@ -15,7 +15,7 @@
   - name: "Get managed ServiceAccount token for {{ hostvars[inventory_hostname].cluster_name }}"
     ocmplus.cm.managed_serviceaccount_addon:
       hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
-      managed_cluster: "{{ hostvars[inventory_hostname].cluster_name} }"
+      managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
       wait: True
       timeout: 60
     register: token
