@@ -2,11 +2,22 @@ plugin: ocmplus.cm.ocm_managedcluster
 cluster_groups:
 - name: eks-clusters
   label_selectors:
-  - name=hao-eks
+  - vendor=EKS
+  - cloud=Amazon
+- name: aks-clusters
+  label_selectors:
+  - vendor=AKS
+  - cloud=Azure
 - name: kind-clusters
   label_selectors:
-  - name=kind
+  - vendor=kind
 - name: openshift-clusters
   label_selectors:
   - vendor=OpenShift
   - name!=local-cluster
+- name: dev-clusters
+  label_selectors:
+  - env=dev
+- name: prod-clusters
+  label_selectors:
+  - env=prod
