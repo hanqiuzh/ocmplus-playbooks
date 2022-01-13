@@ -1,5 +1,5 @@
 - name: create a namespace named ansible-test
-  hosts: kind-clusters
+  hosts: {{ target_hosts }}
   connection: local
   tasks:
   - name: "Get proxy cluster url for example-cluster"
