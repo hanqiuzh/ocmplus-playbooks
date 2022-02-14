@@ -16,7 +16,7 @@
   - name: "Get managed ServiceAccount token for {{ hostvars[inventory_hostname].cluster_name }}"
     ocmplus.cm.managed_serviceaccount:
       state: present
-      hub_kubeconfig: "{{ hostvars['local-cluster'].kubeconfig }}"
+      hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
       managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
       wait: True
       timeout: 60
@@ -29,10 +29,10 @@
 
   - name: "Configure ServiceAccount RBAC for {{ hostvars[inventory_hostname].cluster_name }}"
     ocmplus.cm.managed_serviceaccount_rbac:
-      hub_kubeconfig: "{{ hostvars['local-cluster'].kubeconfig }}"
+      hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
       managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
       managed_serviceaccount_name: "{{ managed_serviceaccount.managed_serviceaccount.name }}"
-      rbac_template: clusterrolebinding.yml
+      rbac_template: rbac/clusterrolebinding.yml
       wait: True
       timeout: 60
     register: result
