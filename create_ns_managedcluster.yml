@@ -12,16 +12,33 @@
   - name: debug
     debug:
       msg: "{{ cluster_proxy_url.cluster_url }}"
+
   - name: "Get managed ServiceAccount token for {{ hostvars[inventory_hostname].cluster_name }}"
-    ocmplus.cm.managed_serviceaccount_addon:
-      hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
+    ocmplus.cm.managed_serviceaccount:
+      state: present
+      hub_kubeconfig: "{{ hostvars['local-cluster'].kubeconfig }}"
       managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
       wait: True
       timeout: 60
-    register: token
+      ttl_seconds_after_creation:  60
+    register: managed_serviceaccount
+
   - name: debug
     debug:
-      msg: "token length: {{ token.token | length }}"
+      msg: "managed_serviceaccount_name: {{ managed_serviceaccount.managed_serviceaccount.name }}"
+
+  - name: "Configure ServiceAccount RBAC for {{ hostvars[inventory_hostname].cluster_name }}"
+    ocmplus.cm.managed_serviceaccount_rbac:
+      hub_kubeconfig: "{{ hostvars['local-cluster'].kubeconfig }}"
+      managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
+      managed_serviceaccount_name: "{{ managed_serviceaccount.managed_serviceaccount.name }}"
+      rbac_template: clusterrolebinding.yml
+      wait: True
+      timeout: 60
+    register: result
+    ignore_errors: true
+    when: hostvars[inventory_hostname].cluster_name != skipped_rbac_cluster_name|default('')
+
   - name: "Creating namespace {{ namespace_name }} on {{ hostvars[inventory_hostname].cluster_name }}"
     kubernetes.core.k8s:
       state: present
