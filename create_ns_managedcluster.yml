@@ -44,7 +44,7 @@
       state: present
       host: "{{ cluster_proxy_url.cluster_url }}"
       validate_certs: no
-      api_key: "{{token.token}}"
+      api_key: "{{managed_serviceaccount.managed_serviceaccount.token}}"
       definition:
         apiVersion: v1
         kind: Namespace
