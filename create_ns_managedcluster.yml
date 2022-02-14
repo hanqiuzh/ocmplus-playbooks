@@ -20,7 +20,7 @@
       managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
       wait: True
       timeout: 60
-      ttl_seconds_after_creation:  60
+      ttl_seconds_after_creation:  {{ ttl_seconds | default(60) }}
     register: managed_serviceaccount
 
   - name: debug
