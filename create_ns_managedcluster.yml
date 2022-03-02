@@ -2,6 +2,22 @@
   hosts: "{{ target_hosts }}"
   connection: local
   tasks:
+  - name: "Enable ClusterProxy Addon"
+    ocmplus.cm.managedcluster_addon:
+      state: present
+      addon_name: cluster-proxy
+      hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
+      managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
+      wait: True
+      timeout: 60
+  - name: "Enable Managed-ServiceAccount Addon"
+    ocmplus.cm.managedcluster_addon:
+      state: present
+      addon_name: managed-serviceaccount
+      hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
+      managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
+      wait: True
+      timeout: 60
   - name: "Get ClusterProxy URL for {{ hostvars[inventory_hostname].cluster_name }}"
     ocmplus.cm.cluster_proxy_addon:
       hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
