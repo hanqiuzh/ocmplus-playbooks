@@ -19,7 +19,7 @@
       wait: True
       timeout: 60
   - name: "Get ClusterProxy URL for {{ hostvars[inventory_hostname].cluster_name }}"
-    ocmplus.cm.cluster_proxy_addon:
+    ocmplus.cm.cluster_proxy:
       hub_kubeconfig: "{{ lookup('env', 'K8S_AUTH_KUBECONFIG') }}"
       managed_cluster: "{{ hostvars[inventory_hostname].cluster_name }}"
       wait: True
